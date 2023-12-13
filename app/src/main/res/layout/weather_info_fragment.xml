@@ -9,32 +9,52 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="80dp">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/miejscowosc_tv"
-                  android:text="Miejscowosc:"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  app:layout_constraintTop_toTopOf="parent"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/miejscowosc_tv_editable"
-                  android:text="Lodz"
-                  app:layout_constraintLeft_toRightOf="@id/miejscowosc_tv"
-                  app:layout_constraintTop_toTopOf="parent"
-                  android:layout_marginLeft="10dp"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/temperatura_tv"
-                  android:text="Temperatura:"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  app:layout_constraintTop_toBottomOf="@id/miejscowosc_tv"
-                  android:layout_marginTop="10dp"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/temperatura_tv_editable"
-                  android:text="30 st. C"
-                  app:layout_constraintLeft_toRightOf="@id/temperatura_tv"
-                  app:layout_constraintTop_toBottomOf="@id/miejscowosc_tv_editable"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/miejscowosc_tv"
+            android:text="Miejscowosc:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/miejscowosc_tv_editable"
+            android:text="Lodz"
+            app:layout_constraintLeft_toRightOf="@id/miejscowosc_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperatura_tv"
+            android:text="Temperatura:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/miejscowosc_tv"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperatura_tv_editable"
+            android:text="30 st. C"
+            app:layout_constraintLeft_toRightOf="@id/temperatura_tv"
+            app:layout_constraintTop_toBottomOf="@id/miejscowosc_tv_editable"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:text="increase the temperature"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temperatura_tv_editable"
+            android:layout_marginTop="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>
