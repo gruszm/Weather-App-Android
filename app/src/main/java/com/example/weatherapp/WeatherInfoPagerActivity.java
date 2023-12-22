@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 public class WeatherInfoPagerActivity extends FragmentActivity
 {
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 3;
 
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
@@ -34,7 +34,15 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         @Override
         public Fragment createFragment(int position)
         {
-            return new WeatherInfoFragment();
+            switch (position)
+            {
+                case 0:
+                    return new BasicInfoFragment();
+                case 1:
+                case 2:
+                default:
+                    return new WeatherInfoFragment();
+            }
         }
 
         @Override
