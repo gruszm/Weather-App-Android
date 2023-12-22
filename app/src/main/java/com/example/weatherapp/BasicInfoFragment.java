@@ -15,9 +15,14 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-public class BasicInfoFragment extends Fragment
+import com.example.weatherapp.openweatherapi.WeatherApiHandler;
+import com.example.weatherapp.openweatherapi.WeatherResponse;
+import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
+
+public class BasicInfoFragment extends Fragment implements WeatherResponseCallback
 {
     private EditText cityET;
+    private TextView cityNameTV, latitudeTV, longitudeTV, timeTV, pressureTv, temperatureTV, descriptionTV;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -30,7 +35,15 @@ public class BasicInfoFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
-        cityET = view.findViewById(R.id.city_edit_text);
+        cityET = view.findViewById(R.id.city_name_edit_text);
+        cityNameTV = view.findViewById(R.id.city_name_text_api_editable);
+        latitudeTV = view.findViewById(R.id.latitude_text_editable);
+        longitudeTV = view.findViewById(R.id.longitude_text_editable);
+        timeTV = view.findViewById(R.id.time_text_editable);
+        pressureTv = view.findViewById(R.id.pressure_text_editable);
+        temperatureTV = view.findViewById(R.id.temperature_text_editable);
+        descriptionTV = view.findViewById(R.id.description_text_editable);
+
         cityET.setOnEditorActionListener(this::onCityEditorAction);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
@@ -46,8 +59,22 @@ public class BasicInfoFragment extends Fragment
 
             editor.putString("current_city", textView.getText().toString());
             editor.apply();
+
+            WeatherApiHandler.getWeatherResponseFromApi(textView.getText().toString(), 1, this, getContext());
         }
 
         return false;
+    }
+
+    @Override
+    public void onWeatherInfoUpdate(WeatherResponse weatherResponse)
+    {
+        cityNameTV.setText(weatherResponse.getCityName());
+        latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()));
+        longitudeTV.setText(String.valueOf(weatherResponse.getLongitude()));
+        timeTV.setText(weatherResponse.getCurrentTimestamp());
+        temperatureTV.setText(String.valueOf(weatherResponse.getCurrentTemperature()));
+        pressureTv.setText(String.valueOf(weatherResponse.getCurrentPressure()));
+        descriptionTV.setText(weatherResponse.getCurrentWeatherDescription());
     }
 }

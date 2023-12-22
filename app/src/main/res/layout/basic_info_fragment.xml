@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -7,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/city_text"
+        android:id="@+id/city_name_text"
         android:text="City Name"
         android:textSize="20sp"
         android:gravity="center"
@@ -17,14 +18,154 @@
         android:layout_marginTop="20dp" />
 
     <EditText
-        android:id="@+id/city_edit_text"
+        android:id="@+id/city_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/city_text"
+        app:layout_constraintTop_toBottomOf="@id/city_name_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginHorizontal="100dp"
         android:inputType="textCapWords"
-        android:autofillHints="postalAddress"/>
+        android:autofillHints="postalAddress" />
+
+    <TextView
+        android:id="@+id/city_name_text_api"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City name:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_name_edit_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/city_name_text_api_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/city_name_text_api"
+        app:layout_constraintStart_toEndOf="@+id/city_name_text_api"
+        app:layout_constraintTop_toTopOf="@+id/city_name_text_api"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/latitude_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latitude:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_name_text_api"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/latitude_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/latitude_text"
+        app:layout_constraintStart_toEndOf="@+id/latitude_text"
+        app:layout_constraintTop_toTopOf="@+id/latitude_text"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/longitude_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Longitude:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/latitude_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/longitude_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/longitude_text"
+        app:layout_constraintStart_toEndOf="@+id/longitude_text"
+        app:layout_constraintTop_toTopOf="@+id/longitude_text"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timestamp:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/longitude_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/time_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/time_text"
+        app:layout_constraintStart_toEndOf="@+id/time_text"
+        app:layout_constraintTop_toTopOf="@+id/time_text"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/temperature_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/temperature_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_text"
+        app:layout_constraintStart_toEndOf="@+id/temperature_text"
+        app:layout_constraintTop_toTopOf="@+id/temperature_text"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/pressure_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pressure:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/pressure_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_text"
+        app:layout_constraintStart_toEndOf="@+id/pressure_text"
+        app:layout_constraintTop_toTopOf="@+id/pressure_text"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/description_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pressure_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/description_text_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/description_text"
+        app:layout_constraintStart_toEndOf="@+id/description_text"
+        app:layout_constraintTop_toTopOf="@+id/description_text"
+        android:layout_marginLeft="10dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
