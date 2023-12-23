@@ -15,6 +15,7 @@ public class ForecastFragment extends Fragment
 {
     private RecyclerView recyclerView;
     private ForecastAdapter forecastAdapter;
+    private WeatherResponse weatherResponse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -31,6 +32,7 @@ public class ForecastFragment extends Fragment
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         forecastAdapter = new ForecastAdapter();
+        forecastAdapter.updateWeatherInfo(weatherResponse);
         recyclerView.setAdapter(forecastAdapter);
     }
 
@@ -40,6 +42,10 @@ public class ForecastFragment extends Fragment
         {
             forecastAdapter.updateWeatherInfo(weatherResponse);
             forecastAdapter.notifyDataSetChanged();
+        }
+        else
+        {
+            this.weatherResponse = weatherResponse;
         }
     }
 }
