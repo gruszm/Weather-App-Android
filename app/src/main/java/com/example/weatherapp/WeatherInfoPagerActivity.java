@@ -39,9 +39,10 @@ public class WeatherInfoPagerActivity extends FragmentActivity
                 case 0:
                     return new BasicInfoFragment();
                 case 1:
+                    return new WeatherInfoFragment();
                 case 2:
                 default:
-                    return new WeatherInfoFragment();
+                    return new ForecastFragment();
             }
         }
 

@@ -41,11 +41,6 @@ public class WeatherResponse
         private String description;
     }
 
-    public List<WeatherData> getList()
-    {
-        return list;
-    }
-
     public String getCityName()
     {
         return city.name;
@@ -68,9 +63,19 @@ public class WeatherResponse
         return list.get(0).weather.get(0).description;
     }
 
+    public String getWeatherDescription(int position)
+    {
+        return list.get(position).weather.get(0).description;
+    }
+
     public int getCurrentPressure()
     {
         return list.get(0).main.pressure;
+    }
+
+    public int getPressure(int position)
+    {
+        return list.get(position).main.pressure;
     }
 
     public double getCurrentTemperature()
@@ -78,9 +83,24 @@ public class WeatherResponse
         return list.get(0).main.temp;
     }
 
+    public double getTemperature(int position)
+    {
+        return list.get(position).main.temp;
+    }
+
     public String getCurrentTimestamp()
     {
         long timestamp = (list.get(0).dt + city.timezone) * 1000; // convert current timestamp to milliseconds
+        Date date = new Date(timestamp);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return simpleDateFormat.format(date);
+    }
+
+    public String getTimestamp(int position)
+    {
+        long timestamp = (list.get(position).dt + city.timezone) * 1000; // convert current timestamp to milliseconds
         Date date = new Date(timestamp);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
