@@ -1,5 +1,6 @@
 package com.example.weatherapp;
 
+import static com.example.weatherapp.ForecastAdapter.FORECAST_NUM;
 import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
 
 import android.content.Context;
@@ -19,10 +20,16 @@ import com.example.weatherapp.openweatherapi.WeatherApiHandler;
 import com.example.weatherapp.openweatherapi.WeatherResponse;
 import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
 
-public class BasicInfoFragment extends Fragment implements WeatherResponseCallback
+public class BasicInfoFragment extends Fragment
 {
     private EditText cityET;
     private TextView cityNameTV, latitudeTV, longitudeTV, timeTV, pressureTv, temperatureTV, descriptionTV;
+    private WeatherResponseCallback weatherResponseCallback;
+
+    public BasicInfoFragment(WeatherResponseCallback weatherResponseCallback)
+    {
+        this.weatherResponseCallback = weatherResponseCallback;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -60,14 +67,13 @@ public class BasicInfoFragment extends Fragment implements WeatherResponseCallba
             editor.putString("current_city", textView.getText().toString());
             editor.apply();
 
-            WeatherApiHandler.getWeatherResponseFromApi(textView.getText().toString(), 1, this, getContext());
+            WeatherApiHandler.getWeatherResponseFromApi(textView.getText().toString(), FORECAST_NUM, weatherResponseCallback, getContext());
         }
 
         return false;
     }
 
-    @Override
-    public void onWeatherInfoUpdate(WeatherResponse weatherResponse)
+    public void updateWeatherInfo(WeatherResponse weatherResponse)
     {
         cityNameTV.setText(weatherResponse.getCityName());
         latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()));

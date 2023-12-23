@@ -1,9 +1,5 @@
 package com.example.weatherapp;
 
-import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
-
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatherapp.openweatherapi.WeatherApiHandler;
 import com.example.weatherapp.openweatherapi.WeatherResponse;
-import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
 
-public class ForecastFragment extends Fragment implements WeatherResponseCallback
+public class ForecastFragment extends Fragment
 {
     private RecyclerView recyclerView;
     private ForecastAdapter forecastAdapter;
@@ -36,14 +30,16 @@ public class ForecastFragment extends Fragment implements WeatherResponseCallbac
         recyclerView = view.findViewById(R.id.forecast_fragment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-        WeatherApiHandler.getWeatherResponseFromApi(sharedPreferences.getString("current_city", ""), 40, this, this.getContext());
+        forecastAdapter = new ForecastAdapter();
+        recyclerView.setAdapter(forecastAdapter);
     }
 
-    @Override
-    public void onWeatherInfoUpdate(WeatherResponse weatherResponse)
+    public void updateWeatherInfo(WeatherResponse weatherResponse)
     {
-        forecastAdapter = new ForecastAdapter(weatherResponse);
-        recyclerView.setAdapter(forecastAdapter);
+        if (forecastAdapter != null)
+        {
+            forecastAdapter.updateWeatherInfo(weatherResponse);
+            forecastAdapter.notifyDataSetChanged();
+        }
     }
 }

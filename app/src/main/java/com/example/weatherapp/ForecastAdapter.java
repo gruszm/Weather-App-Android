@@ -14,11 +14,6 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
 
     private WeatherResponse weatherResponse;
 
-    public ForecastAdapter(WeatherResponse weatherResponse)
-    {
-        this.weatherResponse = weatherResponse;
-    }
-
     @Override
     public ForecastElementViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -30,15 +25,23 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
     @Override
     public void onBindViewHolder(ForecastElementViewHolder holder, int position)
     {
-        holder.timeTV.setText(weatherResponse.getTimestamp(position));
-        holder.temperatureTV.setText(String.valueOf(weatherResponse.getTemperature(position)));
-        holder.pressureTV.setText(String.valueOf(weatherResponse.getPressure(position)));
-        holder.descTV.setText(weatherResponse.getWeatherDescription(position));
+        if (weatherResponse != null)
+        {
+            holder.timeTV.setText(weatherResponse.getTimestamp(position));
+            holder.temperatureTV.setText(String.valueOf(weatherResponse.getTemperature(position)));
+            holder.pressureTV.setText(String.valueOf(weatherResponse.getPressure(position)));
+            holder.descTV.setText(weatherResponse.getWeatherDescription(position));
+        }
     }
 
     @Override
     public int getItemCount()
     {
         return FORECAST_NUM;
+    }
+
+    public void updateWeatherInfo(WeatherResponse weatherResponse)
+    {
+        this.weatherResponse = weatherResponse;
     }
 }

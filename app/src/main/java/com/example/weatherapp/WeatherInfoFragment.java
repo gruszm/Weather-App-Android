@@ -41,7 +41,9 @@ public class WeatherInfoFragment extends Fragment
         String rest = "";
 
         while (scanner.hasNext())
+        {
             rest += scanner.next() + " ";
+        }
 
         temperatureTV.setText(temperatureAsInt + " " + rest);
         scanner.close();
