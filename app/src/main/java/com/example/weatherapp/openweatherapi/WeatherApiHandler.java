@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.example.weatherapp.BuildConfig;
 
+import java.net.UnknownHostException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +53,11 @@ public class WeatherApiHandler
             @Override
             public void onFailure(Call<WeatherResponse> call, Throwable t)
             {
-
+                if (t.getClass() == UnknownHostException.class)
+                {
+                    Toast.makeText(context, "No internet connection. The weather data might be outdated.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please try again when the connection is restored.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
