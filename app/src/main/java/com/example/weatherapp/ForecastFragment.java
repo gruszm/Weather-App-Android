@@ -15,7 +15,12 @@ public class ForecastFragment extends Fragment
 {
     private RecyclerView recyclerView;
     private ForecastAdapter forecastAdapter;
-    private WeatherResponse weatherResponse;
+    private WeatherResponse weatherInfoHistory;
+
+    public ForecastFragment(WeatherResponse weatherInfoHistory)
+    {
+        this.weatherInfoHistory = weatherInfoHistory;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -32,7 +37,7 @@ public class ForecastFragment extends Fragment
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         forecastAdapter = new ForecastAdapter();
-        forecastAdapter.updateWeatherInfo(weatherResponse);
+        forecastAdapter.updateWeatherInfo(weatherInfoHistory);
         recyclerView.setAdapter(forecastAdapter);
     }
 
@@ -45,7 +50,7 @@ public class ForecastFragment extends Fragment
         }
         else
         {
-            this.weatherResponse = weatherResponse;
+            this.weatherInfoHistory = weatherResponse;
         }
     }
 }

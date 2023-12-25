@@ -25,9 +25,11 @@ public class BasicInfoFragment extends Fragment
     private EditText cityET;
     private TextView cityNameTV, latitudeTV, longitudeTV, timeTV, pressureTv, temperatureTV, descriptionTV;
     private WeatherResponseCallback weatherResponseCallback;
+    private WeatherResponse weatherHistoryInfo;
 
-    public BasicInfoFragment(WeatherResponseCallback weatherResponseCallback)
+    public BasicInfoFragment(WeatherResponse weatherHistoryInfo, WeatherResponseCallback weatherResponseCallback)
     {
+        this.weatherHistoryInfo = weatherHistoryInfo;
         this.weatherResponseCallback = weatherResponseCallback;
     }
 
@@ -55,6 +57,11 @@ public class BasicInfoFragment extends Fragment
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         cityET.setText(sharedPreferences.getString("current_city", ""));
+
+        if (weatherHistoryInfo != null)
+        {
+            updateWeatherInfo(weatherHistoryInfo);
+        }
     }
 
     boolean onCityEditorAction(TextView textView, int actionId, KeyEvent keyEvent)

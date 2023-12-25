@@ -107,4 +107,9 @@ public class WeatherResponse
 
         return simpleDateFormat.format(date);
     }
+
+    public long getOldestDataTime()
+    {
+        return list.get(0).dt;
+    }
 }

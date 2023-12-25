@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.weatherapp.openweatherapi.WeatherApiHandler;
 import com.example.weatherapp.openweatherapi.WeatherResponse;
 import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
+import com.google.gson.Gson;
 
 public class WeatherInfoPagerActivity extends FragmentActivity
 {
@@ -43,12 +44,20 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         {
             super(fragmentActivity);
 
-            basicInfoFragment = new BasicInfoFragment(this);
-            weatherInfoFragment = new WeatherInfoFragment();
-            forecastFragment = new ForecastFragment();
-
             SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-            WeatherApiHandler.getWeatherResponseFromApi(sharedPreferences.getString("current_city", ""), FORECAST_NUM, this, getApplicationContext());
+            Gson gson = new Gson();
+            String weatherInfoSerialized = sharedPreferences.getString("weather_info_history", "");
+            WeatherResponse weatherInfoHistory = gson.fromJson(weatherInfoSerialized, WeatherResponse.class);
+
+            basicInfoFragment = new BasicInfoFragment(weatherInfoHistory, this);
+            weatherInfoFragment = new WeatherInfoFragment();
+            forecastFragment = new ForecastFragment(weatherInfoHistory);
+
+            // check, if a history exists or if first forecast in history is older than current system time
+            if ((weatherInfoHistory == null) || (System.currentTimeMillis() / 1000) > weatherInfoHistory.getOldestDataTime())
+            {
+                WeatherApiHandler.getWeatherResponseFromApi(sharedPreferences.getString("current_city", ""), FORECAST_NUM, this, getApplicationContext());
+            }
         }
 
         @Override
@@ -77,6 +86,14 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         {
             basicInfoFragment.updateWeatherInfo(weatherResponse);
             forecastFragment.updateWeatherInfo(weatherResponse);
+
+            SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);
+            Gson gson = new Gson();
+            String weatherInfoSerialized = gson.toJson(weatherResponse);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString("weather_info_history", weatherInfoSerialized);
+            editor.apply();
         }
     }
 }
