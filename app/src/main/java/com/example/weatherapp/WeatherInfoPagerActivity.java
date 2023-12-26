@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,6 +23,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
 
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
+    private SwipeRefreshLayout swipeToRefreshWeatherDataLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,9 +31,19 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_info);
 
+        swipeToRefreshWeatherDataLayout = findViewById(R.id.swipe_to_refresh_weather_data_layout);
+        swipeToRefreshWeatherDataLayout.setOnRefreshListener(this::weatherDataOnRefreshListener);
+
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new WeatherInfoPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+    }
+
+    private void weatherDataOnRefreshListener()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        WeatherApiHandler.getWeatherResponseFromApi(sharedPreferences.getString("current_city", ""), FORECAST_NUM, (WeatherResponseCallback) pagerAdapter, getApplicationContext());
+        swipeToRefreshWeatherDataLayout.setRefreshing(false);
     }
 
     private class WeatherInfoPagerAdapter extends FragmentStateAdapter implements WeatherResponseCallback

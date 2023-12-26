@@ -56,7 +56,7 @@ public class WeatherApiHandler
                 if (t.getClass() == UnknownHostException.class)
                 {
                     Toast.makeText(context, "No internet connection. The weather data might be outdated.", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(context, "Please try again when the connection is restored.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please try again or refresh when the connection is restored.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
