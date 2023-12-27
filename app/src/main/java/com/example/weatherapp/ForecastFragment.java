@@ -1,9 +1,5 @@
 package com.example.weatherapp;
 
-import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
-
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +16,12 @@ public class ForecastFragment extends Fragment
     private RecyclerView recyclerView;
     private ForecastAdapter forecastAdapter;
     private WeatherResponse weatherInfoHistory;
+    private String temperatureSuffix;
 
-    public ForecastFragment(WeatherResponse weatherInfoHistory)
+    public ForecastFragment(WeatherResponse weatherInfoHistory, String temperatureSuffix)
     {
         this.weatherInfoHistory = weatherInfoHistory;
+        this.temperatureSuffix = temperatureSuffix;
     }
 
     @Override
@@ -42,31 +40,13 @@ public class ForecastFragment extends Fragment
 
         forecastAdapter = new ForecastAdapter();
         recyclerView.setAdapter(forecastAdapter);
-        updateWeatherInfo(weatherInfoHistory);
+        updateWeatherInfo(weatherInfoHistory, temperatureSuffix);
     }
 
-    public void updateWeatherInfo(WeatherResponse weatherResponse)
+    public void updateWeatherInfo(WeatherResponse weatherResponse, String temperatureSuffix)
     {
         if (forecastAdapter != null)
         {
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-            String units = sharedPreferences.getString("current_units", "Celsius");
-            String temperatureSuffix;
-
-            switch (units)
-            {
-                case "Celsius":
-                    temperatureSuffix = " °C";
-                    break;
-                case "Fahrenheit":
-                    temperatureSuffix = " °F";
-                    break;
-                case "Kelvin":
-                default:
-                    temperatureSuffix = " K";
-                    break;
-            }
-
             forecastAdapter.updateWeatherInfo(weatherResponse, temperatureSuffix);
             forecastAdapter.notifyDataSetChanged();
         }

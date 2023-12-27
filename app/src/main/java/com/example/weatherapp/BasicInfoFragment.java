@@ -30,10 +30,12 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     private WeatherResponseCallback weatherResponseCallback;
     private WeatherResponse weatherHistoryInfo;
     private Spinner unitsSpinner;
+    private String temperatureSuffix;
 
-    public BasicInfoFragment(WeatherResponse weatherHistoryInfo, WeatherResponseCallback weatherResponseCallback)
+    public BasicInfoFragment(WeatherResponse weatherHistoryInfo, String temperatureSuffix, WeatherResponseCallback weatherResponseCallback)
     {
         this.weatherHistoryInfo = weatherHistoryInfo;
+        this.temperatureSuffix = temperatureSuffix;
         this.weatherResponseCallback = weatherResponseCallback;
     }
 
@@ -64,7 +66,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
 
         if (weatherHistoryInfo != null)
         {
-            updateWeatherInfo(weatherHistoryInfo);
+            updateWeatherInfo(weatherHistoryInfo, temperatureSuffix);
         }
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.units_array, android.R.layout.simple_spinner_item);
@@ -100,25 +102,9 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         return false;
     }
 
-    public void updateWeatherInfo(WeatherResponse weatherResponse)
+    public void updateWeatherInfo(WeatherResponse weatherResponse, String temperatureSuffix)
     {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-        String units = sharedPreferences.getString("current_units", "Celsius");
-        String temperature = String.valueOf(weatherResponse.getCurrentTemperature());
-
-        switch (units)
-        {
-            case "Celsius":
-                temperature += " °C";
-                break;
-            case "Fahrenheit":
-                temperature += " °F";
-                break;
-            case "Kelvin":
-            default:
-                temperature += " K";
-                break;
-        }
+        String temperature = String.valueOf(weatherResponse.getCurrentTemperature()).concat(temperatureSuffix);
 
         cityNameTV.setText(weatherResponse.getCityName());
         latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()).concat("°"));

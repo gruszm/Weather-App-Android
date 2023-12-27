@@ -52,6 +52,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         private BasicInfoFragment basicInfoFragment;
         private AdditionalInfoFragment additionalInfoFragment;
         private ForecastFragment forecastFragment;
+        private String temperatureSuffix;
 
         public WeatherInfoPagerAdapter(FragmentActivity fragmentActivity)
         {
@@ -62,9 +63,11 @@ public class WeatherInfoPagerActivity extends FragmentActivity
             String weatherInfoSerialized = sharedPreferences.getString("weather_info_history", "");
             WeatherResponse weatherInfoHistory = gson.fromJson(weatherInfoSerialized, WeatherResponse.class);
 
-            basicInfoFragment = new BasicInfoFragment(weatherInfoHistory, this);
+            updateTemperatureSuffix();
+
+            basicInfoFragment = new BasicInfoFragment(weatherInfoHistory, temperatureSuffix, this);
             additionalInfoFragment = new AdditionalInfoFragment(weatherInfoHistory);
-            forecastFragment = new ForecastFragment(weatherInfoHistory);
+            forecastFragment = new ForecastFragment(weatherInfoHistory, temperatureSuffix);
 
             // check, if a history exists or if first forecast in history is older than current system time
             if ((weatherInfoHistory == null) || (System.currentTimeMillis() / 1000) > weatherInfoHistory.getOldestDataTime())
@@ -97,9 +100,11 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         @Override
         public void onWeatherInfoUpdate(WeatherResponse weatherResponse)
         {
-            basicInfoFragment.updateWeatherInfo(weatherResponse);
+            updateTemperatureSuffix();
+
+            basicInfoFragment.updateWeatherInfo(weatherResponse, temperatureSuffix);
             additionalInfoFragment.updateWeatherInfo(weatherResponse);
-            forecastFragment.updateWeatherInfo(weatherResponse);
+            forecastFragment.updateWeatherInfo(weatherResponse, temperatureSuffix);
 
             SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);
             Gson gson = new Gson();
@@ -108,6 +113,26 @@ public class WeatherInfoPagerActivity extends FragmentActivity
 
             editor.putString("weather_info_history", weatherInfoSerialized);
             editor.apply();
+        }
+
+        private void updateTemperatureSuffix()
+        {
+            SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+            String units = sharedPreferences.getString("current_units", "Celsius");
+
+            switch (units)
+            {
+                case "Celsius":
+                    temperatureSuffix = " °C";
+                    break;
+                case "Fahrenheit":
+                    temperatureSuffix = " °F";
+                    break;
+                case "Kelvin":
+                default:
+                    temperatureSuffix = " K";
+                    break;
+            }
         }
     }
 }
