@@ -21,6 +21,11 @@ public class WeatherApiHandler
 {
     public static void getWeatherResponseFromApi(String city, int count, WeatherResponseCallback callback, Context context)
     {
+        if (city.isEmpty())
+        {
+            return;
+        }
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         String units = sharedPreferences.getString("current_units", "Celsius");
 
