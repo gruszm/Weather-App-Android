@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_additional_info_tv"
+        android:text="Additional Info"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:textSize="48sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_city_name"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_additional_info_tv"
+        app:layout_constraintLeft_toLeftOf="@id/additional_info_additional_info_tv"
+        app:layout_constraintRight_toRightOf="@id/additional_info_additional_info_tv"
+        android:textSize="24sp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_wind_speed_tv"
+        android:text="Wind speed:"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_city_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="80dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_wind_speed_tv_editable"
+        app:layout_constraintTop_toTopOf="@id/additional_info_wind_speed_tv"
+        app:layout_constraintBottom_toBottomOf="@id/additional_info_wind_speed_tv"
+        app:layout_constraintLeft_toRightOf="@id/additional_info_wind_speed_tv"
+        android:layout_marginLeft="10dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_wind_direction_tv"
+        android:text="Wind direction:"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_wind_speed_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_wind_direction_tv_editable"
+        app:layout_constraintTop_toTopOf="@id/additional_info_wind_direction_tv"
+        app:layout_constraintBottom_toBottomOf="@id/additional_info_wind_direction_tv"
+        app:layout_constraintLeft_toRightOf="@id/additional_info_wind_direction_tv"
+        android:layout_marginLeft="10dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_humidity_tv"
+        android:text="Humidity:"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_wind_direction_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_humidity_tv_editable"
+        app:layout_constraintTop_toTopOf="@id/additional_info_humidity_tv"
+        app:layout_constraintBottom_toBottomOf="@id/additional_info_humidity_tv"
+        app:layout_constraintLeft_toRightOf="@id/additional_info_humidity_tv"
+        android:layout_marginLeft="10dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_visibility_tv"
+        android:text="Visibility:"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_humidity_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+        style="@style/weather_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/additional_info_visibility_tv_editable"
+        app:layout_constraintTop_toTopOf="@id/additional_info_visibility_tv"
+        app:layout_constraintBottom_toBottomOf="@id/additional_info_visibility_tv"
+        app:layout_constraintLeft_toRightOf="@id/additional_info_visibility_tv"
+        android:layout_marginLeft="10dp"
+        style="@style/weather_info" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

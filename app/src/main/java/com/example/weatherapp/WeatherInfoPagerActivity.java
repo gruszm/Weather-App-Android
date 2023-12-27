@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.weatherapp.openweatherapi.AdditionalInfoFragment;
 import com.example.weatherapp.openweatherapi.WeatherApiHandler;
 import com.example.weatherapp.openweatherapi.WeatherResponse;
 import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
@@ -49,7 +50,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
     private class WeatherInfoPagerAdapter extends FragmentStateAdapter implements WeatherResponseCallback
     {
         private BasicInfoFragment basicInfoFragment;
-        private WeatherInfoFragment weatherInfoFragment;
+        private AdditionalInfoFragment additionalInfoFragment;
         private ForecastFragment forecastFragment;
 
         public WeatherInfoPagerAdapter(FragmentActivity fragmentActivity)
@@ -62,7 +63,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
             WeatherResponse weatherInfoHistory = gson.fromJson(weatherInfoSerialized, WeatherResponse.class);
 
             basicInfoFragment = new BasicInfoFragment(weatherInfoHistory, this);
-            weatherInfoFragment = new WeatherInfoFragment();
+            additionalInfoFragment = new AdditionalInfoFragment(weatherInfoHistory);
             forecastFragment = new ForecastFragment(weatherInfoHistory);
 
             // check, if a history exists or if first forecast in history is older than current system time
@@ -80,7 +81,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
                 case 0:
                     return basicInfoFragment;
                 case 1:
-                    return weatherInfoFragment;
+                    return additionalInfoFragment;
                 case 2:
                 default:
                     return forecastFragment;
@@ -97,6 +98,7 @@ public class WeatherInfoPagerActivity extends FragmentActivity
         public void onWeatherInfoUpdate(WeatherResponse weatherResponse)
         {
             basicInfoFragment.updateWeatherInfo(weatherResponse);
+            additionalInfoFragment.updateWeatherInfo(weatherResponse);
             forecastFragment.updateWeatherInfo(weatherResponse);
 
             SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);

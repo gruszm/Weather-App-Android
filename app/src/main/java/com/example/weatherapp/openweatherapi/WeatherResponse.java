@@ -23,17 +23,26 @@ public class WeatherResponse
         private double lon;
     }
 
-    private class WeatherData
+    private static class WeatherData
     {
         private long dt;
         private Main main;
         private List<Weather> weather;
+        private Wind wind;
+        private int visibility;
+    }
+
+    private static class Wind
+    {
+        private double speed;
+        private int deg;
     }
 
     private static class Main
     {
         private double temp;
         private int pressure;
+        private int humidity;
     }
 
     private static class Weather
@@ -111,5 +120,25 @@ public class WeatherResponse
     public long getOldestDataTime()
     {
         return list.get(0).dt;
+    }
+
+    public double getCurrentWindSpeed()
+    {
+        return list.get(0).wind.speed;
+    }
+
+    public int getCurrentWindDirection()
+    {
+        return list.get(0).wind.deg;
+    }
+
+    public int getCurrentHumidity()
+    {
+        return list.get(0).main.humidity;
+    }
+
+    public int getCurrentVisibility()
+    {
+        return list.get(0).visibility;
     }
 }
