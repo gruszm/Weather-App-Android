@@ -127,9 +127,46 @@ public class WeatherResponse
         return list.get(0).wind.speed;
     }
 
-    public int getCurrentWindDirection()
+    public String getCurrentWindDirection()
     {
-        return list.get(0).wind.deg;
+        int windAzimuth = list.get(0).wind.deg;
+
+        if (windAzimuth < 22.5F)
+        {
+            return "North";
+        }
+        else if (windAzimuth < 67.5F)
+        {
+            return "North-East";
+        }
+        else if (windAzimuth < 112.5F)
+        {
+            return "East";
+        }
+        else if (windAzimuth < 157.5F)
+        {
+            return "South-East";
+        }
+        else if (windAzimuth < 202.5F)
+        {
+            return "South";
+        }
+        else if (windAzimuth < 247.5F)
+        {
+            return "South-West";
+        }
+        else if (windAzimuth < 292.5F)
+        {
+            return "West";
+        }
+        else if (windAzimuth < 337.5F)
+        {
+            return "North-West";
+        }
+        else
+        {
+            return "North";
+        }
     }
 
     public int getCurrentHumidity()

@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.weatherapp.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 public class AdditionalInfoFragment extends Fragment
 {
     private WeatherResponse weatherInfo;
@@ -54,6 +57,9 @@ public class AdditionalInfoFragment extends Fragment
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
             String units = sharedPreferences.getString("current_units", "Celsius");
             String speed;
+            DecimalFormatSymbols spaceSeparator = new DecimalFormatSymbols();
+            spaceSeparator.setGroupingSeparator(' ');
+            DecimalFormat visibilityFormat = new DecimalFormat("#,###", spaceSeparator);
 
             switch (units)
             {
@@ -69,9 +75,9 @@ public class AdditionalInfoFragment extends Fragment
 
             cityNameTV.setText(weatherInfo.getCityName());
             windSpeedTV.setText(speed);
-            windDirectionTV.setText(String.valueOf(weatherInfo.getCurrentWindDirection()));
-            humidityTV.setText(String.valueOf(weatherInfo.getCurrentHumidity()));
-            visibilityTV.setText(String.valueOf(weatherInfo.getCurrentVisibility()));
+            windDirectionTV.setText(weatherInfo.getCurrentWindDirection());
+            humidityTV.setText(String.valueOf(weatherInfo.getCurrentHumidity()).concat("%"));
+            visibilityTV.setText(visibilityFormat.format(weatherInfo.getCurrentVisibility()).concat(" m"));
         }
         else
         {

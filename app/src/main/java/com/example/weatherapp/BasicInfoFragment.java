@@ -121,11 +121,11 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         cityNameTV.setText(weatherResponse.getCityName());
-        latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()));
-        longitudeTV.setText(String.valueOf(weatherResponse.getLongitude()));
+        latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()).concat("°"));
+        longitudeTV.setText(String.valueOf(weatherResponse.getLongitude()).concat("°"));
         timeTV.setText(weatherResponse.getCurrentTimestamp());
         temperatureTV.setText(temperature);
-        pressureTv.setText(String.valueOf(weatherResponse.getCurrentPressure()));
+        pressureTv.setText(String.valueOf(weatherResponse.getCurrentPressure()).concat(" hPa"));
         descriptionTV.setText(weatherResponse.getCurrentWeatherDescription());
     }
 

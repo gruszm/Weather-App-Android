@@ -13,6 +13,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
     public static final int FORECAST_NUM = 40;
 
     private WeatherResponse weatherResponse;
+    private String temperatureSuffix;
 
     @Override
     public ForecastElementViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -28,8 +29,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
         if (weatherResponse != null)
         {
             holder.timeTV.setText(weatherResponse.getTimestamp(position));
-            holder.temperatureTV.setText(String.valueOf(weatherResponse.getTemperature(position)));
-            holder.pressureTV.setText(String.valueOf(weatherResponse.getPressure(position)));
+            holder.temperatureTV.setText(String.valueOf(weatherResponse.getTemperature(position)).concat(temperatureSuffix));
+            holder.pressureTV.setText(String.valueOf(weatherResponse.getPressure(position)).concat(" hPa"));
             holder.descTV.setText(weatherResponse.getWeatherDescription(position));
         }
     }
@@ -40,8 +41,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
         return FORECAST_NUM;
     }
 
-    public void updateWeatherInfo(WeatherResponse weatherResponse)
+    public void updateWeatherInfo(WeatherResponse weatherResponse, String temperatureSuffix)
     {
         this.weatherResponse = weatherResponse;
+        this.temperatureSuffix = temperatureSuffix;
     }
 }

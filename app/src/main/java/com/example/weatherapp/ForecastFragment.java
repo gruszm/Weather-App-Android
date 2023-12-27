@@ -1,5 +1,9 @@
 package com.example.weatherapp;
 
+import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,15 +41,33 @@ public class ForecastFragment extends Fragment
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         forecastAdapter = new ForecastAdapter();
-        forecastAdapter.updateWeatherInfo(weatherInfoHistory);
         recyclerView.setAdapter(forecastAdapter);
+        updateWeatherInfo(weatherInfoHistory);
     }
 
     public void updateWeatherInfo(WeatherResponse weatherResponse)
     {
         if (forecastAdapter != null)
         {
-            forecastAdapter.updateWeatherInfo(weatherResponse);
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+            String units = sharedPreferences.getString("current_units", "Celsius");
+            String temperatureSuffix;
+
+            switch (units)
+            {
+                case "Celsius":
+                    temperatureSuffix = " °C";
+                    break;
+                case "Fahrenheit":
+                    temperatureSuffix = " °F";
+                    break;
+                case "Kelvin":
+                default:
+                    temperatureSuffix = " K";
+                    break;
+            }
+
+            forecastAdapter.updateWeatherInfo(weatherResponse, temperatureSuffix);
             forecastAdapter.notifyDataSetChanged();
         }
         else
