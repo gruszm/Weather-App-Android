@@ -1,5 +1,9 @@
 package com.example.weatherapp.openweatherapi;
 
+import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +51,24 @@ public class AdditionalInfoFragment extends Fragment
     {
         if (viewCreated && (weatherInfo != null))
         {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+            String units = sharedPreferences.getString("current_units", "Celsius");
+            String speed;
+
+            switch (units)
+            {
+                case "Celsius":
+                case "Kelvin":
+                    speed = Math.round(weatherInfo.getCurrentWindSpeed() * 3.6F) + " kph"; // convert from m/s to km/h
+                    break;
+                case "Fahrenheit":
+                default:
+                    speed = Math.round(weatherInfo.getCurrentWindSpeed()) + " mph";
+                    break;
+            }
+
             cityNameTV.setText(weatherInfo.getCityName());
-            windSpeedTV.setText(String.valueOf(weatherInfo.getCurrentWindSpeed()));
+            windSpeedTV.setText(speed);
             windDirectionTV.setText(String.valueOf(weatherInfo.getCurrentWindDirection()));
             humidityTV.setText(String.valueOf(weatherInfo.getCurrentHumidity()));
             visibilityTV.setText(String.valueOf(weatherInfo.getCurrentVisibility()));

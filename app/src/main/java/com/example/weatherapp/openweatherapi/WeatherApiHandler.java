@@ -1,9 +1,10 @@
 package com.example.weatherapp.openweatherapi;
 
 import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_RESPONSE_LANG;
-import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_UNITS;
+import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.example.weatherapp.BuildConfig;
@@ -20,6 +21,13 @@ public class WeatherApiHandler
 {
     public static void getWeatherResponseFromApi(String city, int count, WeatherResponseCallback callback, Context context)
     {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        String units = sharedPreferences.getString("current_units", "Celsius");
+
+        units = units.equals("Celsius") ? "metric" : units;
+        units = units.equals("Fahrenheit") ? "imperial" : units;
+        units = units.equals("Kelvin") ? "standard" : units;
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -32,7 +40,7 @@ public class WeatherApiHandler
                 BuildConfig.OPEN_WEATHER_API_KEY,
                 count,
                 WEATHER_APP_RESPONSE_LANG,
-                WEATHER_APP_UNITS
+                units
         );
 
         call.enqueue(new Callback<WeatherResponse>()

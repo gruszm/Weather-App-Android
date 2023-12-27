@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -20,12 +23,13 @@ import com.example.weatherapp.openweatherapi.WeatherApiHandler;
 import com.example.weatherapp.openweatherapi.WeatherResponse;
 import com.example.weatherapp.openweatherapi.WeatherResponseCallback;
 
-public class BasicInfoFragment extends Fragment
+public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSelectedListener
 {
     private EditText cityET;
     private TextView cityNameTV, latitudeTV, longitudeTV, timeTV, pressureTv, temperatureTV, descriptionTV;
     private WeatherResponseCallback weatherResponseCallback;
     private WeatherResponse weatherHistoryInfo;
+    private Spinner unitsSpinner;
 
     public BasicInfoFragment(WeatherResponse weatherHistoryInfo, WeatherResponseCallback weatherResponseCallback)
     {
@@ -62,6 +66,22 @@ public class BasicInfoFragment extends Fragment
         {
             updateWeatherInfo(weatherHistoryInfo);
         }
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.units_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        String spinnerSelectedItem = sharedPreferences.getString("current_units", null);
+
+        unitsSpinner = view.findViewById(R.id.unit_spinner);
+        unitsSpinner.setAdapter(spinnerAdapter);
+
+        // important thing is, that the method setSelection is invoked before setting onItemSelectedListener
+        if (spinnerSelectedItem != null)
+        {
+            int spinnerPos = spinnerAdapter.getPosition(spinnerSelectedItem);
+            unitsSpinner.setSelection(spinnerPos, false);
+        }
+
+        unitsSpinner.setOnItemSelectedListener(this);
     }
 
     boolean onCityEditorAction(TextView textView, int actionId, KeyEvent keyEvent)
@@ -82,12 +102,47 @@ public class BasicInfoFragment extends Fragment
 
     public void updateWeatherInfo(WeatherResponse weatherResponse)
     {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        String units = sharedPreferences.getString("current_units", "Celsius");
+        String temperature = String.valueOf(weatherResponse.getCurrentTemperature());
+
+        switch (units)
+        {
+            case "Celsius":
+                temperature += " °C";
+                break;
+            case "Fahrenheit":
+                temperature += " °F";
+                break;
+            case "Kelvin":
+            default:
+                temperature += " K";
+                break;
+        }
+
         cityNameTV.setText(weatherResponse.getCityName());
         latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()));
         longitudeTV.setText(String.valueOf(weatherResponse.getLongitude()));
         timeTV.setText(weatherResponse.getCurrentTimestamp());
-        temperatureTV.setText(String.valueOf(weatherResponse.getCurrentTemperature()));
+        temperatureTV.setText(temperature);
         pressureTv.setText(String.valueOf(weatherResponse.getCurrentPressure()));
         descriptionTV.setText(weatherResponse.getCurrentWeatherDescription());
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("current_units", parent.getSelectedItem().toString());
+        editor.commit(); // commit() instead of apply() because we want to be sure, that the weather request uses updated units
+
+        WeatherApiHandler.getWeatherResponseFromApi(cityET.getText().toString(), FORECAST_NUM, weatherResponseCallback, getContext());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
+
     }
 }
