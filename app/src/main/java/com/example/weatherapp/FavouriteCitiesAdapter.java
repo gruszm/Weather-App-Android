@@ -11,10 +11,12 @@ import java.util.List;
 public class FavouriteCitiesAdapter extends RecyclerView.Adapter<FavouriteCityViewHolder> implements FavouriteCityInterface
 {
     private List<String> favouriteCitiesList;
+    private FavouriteCityInterface favouriteCityInterface;
 
-    public FavouriteCitiesAdapter(List<String> favouriteCitiesList)
+    public FavouriteCitiesAdapter(List<String> favouriteCitiesList, FavouriteCityInterface favouriteCityInterface)
     {
         this.favouriteCitiesList = favouriteCitiesList;
+        this.favouriteCityInterface = favouriteCityInterface;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class FavouriteCitiesAdapter extends RecyclerView.Adapter<FavouriteCityVi
     @Override
     public void useCity(String cityName)
     {
-
+        favouriteCityInterface.useCity(cityName);
     }
 
     @Override

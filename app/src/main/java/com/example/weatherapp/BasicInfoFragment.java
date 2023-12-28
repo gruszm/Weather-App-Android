@@ -3,6 +3,7 @@ package com.example.weatherapp;
 import static com.example.weatherapp.ForecastAdapter.FORECAST_NUM;
 import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.example.weatherapp.openweatherapi.WeatherApiHandler;
@@ -36,12 +39,37 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     private ImageView weatherIcon;
     private String temperatureSuffix;
     private Button favouriteButton;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public BasicInfoFragment(WeatherResponse weatherHistoryInfo, String temperatureSuffix, WeatherResponseCallback weatherResponseCallback)
     {
         this.weatherHistoryInfo = weatherHistoryInfo;
         this.temperatureSuffix = temperatureSuffix;
         this.weatherResponseCallback = weatherResponseCallback;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result ->
+                {
+                    if (result.getResultCode() == Activity.RESULT_OK)
+                    {
+                        Intent data = result.getData();
+                        String selectedCity = data.getStringExtra("selected_city");
+                        cityET.setText(selectedCity);
+
+                        // create an artificial text view and pass it to the method, which handles the OK button in the EditText
+                        TextView artificialTextView = new TextView(getContext());
+                        artificialTextView.setText(selectedCity);
+                        onCityEditorAction(artificialTextView, EditorInfo.IME_ACTION_DONE, null);
+                    }
+                }
+        );
     }
 
     @Override
@@ -97,7 +125,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     private void favouriteButtonOnClickListener(View view)
     {
         Intent intent = new Intent(getContext(), FavouriteCitiesActivity.class);
-        startActivity(intent);
+        activityResultLauncher.launch(intent);
     }
 
     boolean onCityEditorAction(TextView textView, int actionId, KeyEvent keyEvent)

@@ -1,5 +1,7 @@
 package com.example.weatherapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouriteCitiesActivity extends AppCompatActivity
+public class FavouriteCitiesActivity extends AppCompatActivity implements FavouriteCityInterface
 {
     private List<String> favouriteCitiesList;
     private RecyclerView favouriteCitiesRecyclerView;
@@ -32,7 +34,7 @@ public class FavouriteCitiesActivity extends AppCompatActivity
         addCityBtn = findViewById(R.id.favourite_cities_add_city_button);
 
         favouriteCitiesList = new ArrayList<>();
-        favouriteCitiesAdapter = new FavouriteCitiesAdapter(favouriteCitiesList);
+        favouriteCitiesAdapter = new FavouriteCitiesAdapter(favouriteCitiesList, this);
         favouriteCitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         favouriteCitiesRecyclerView.setAdapter(favouriteCitiesAdapter);
 
@@ -55,5 +57,20 @@ public class FavouriteCitiesActivity extends AppCompatActivity
         {
             Toast.makeText(this, "This city is already on the list", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void useCity(String cityName)
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("selected_city", cityName);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public void removeCity(int position)
+    {
+        // do nothing
     }
 }
