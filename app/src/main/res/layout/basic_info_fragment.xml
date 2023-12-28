@@ -66,8 +66,10 @@
         android:layout_height="wrap_content"
         android:text="City:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/basic_info_weather_icon"
+        app:layout_constraintTop_toBottomOf="@id/basic_info_weather_icon"
+        app:layout_constraintBottom_toTopOf="@id/latitude_text"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -75,7 +77,6 @@
         android:id="@+id/city_name_text_api_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/city_name_text_api"
         app:layout_constraintStart_toEndOf="@+id/city_name_text_api"
         app:layout_constraintTop_toTopOf="@+id/city_name_text_api"
@@ -88,8 +89,9 @@
         android:layout_height="wrap_content"
         android:text="Latitude:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_name_text_api"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/city_name_text_api"
+        app:layout_constraintBottom_toTopOf="@id/longitude_text"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -97,7 +99,6 @@
         android:id="@+id/latitude_text_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/latitude_text"
         app:layout_constraintStart_toEndOf="@+id/latitude_text"
         app:layout_constraintTop_toTopOf="@+id/latitude_text"
@@ -110,8 +111,9 @@
         android:layout_height="wrap_content"
         android:text="Longitude:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/latitude_text"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/latitude_text"
+        app:layout_constraintBottom_toTopOf="@id/time_text"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -119,7 +121,6 @@
         android:id="@+id/longitude_text_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/longitude_text"
         app:layout_constraintStart_toEndOf="@+id/longitude_text"
         app:layout_constraintTop_toTopOf="@+id/longitude_text"
@@ -132,8 +133,9 @@
         android:layout_height="wrap_content"
         android:text="Time:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/longitude_text"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/longitude_text"
+        app:layout_constraintBottom_toTopOf="@id/temperature_text"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -141,7 +143,6 @@
         android:id="@+id/time_text_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/time_text"
         app:layout_constraintStart_toEndOf="@+id/time_text"
         app:layout_constraintTop_toTopOf="@+id/time_text"
@@ -154,8 +155,9 @@
         android:layout_height="wrap_content"
         android:text="Temperature:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_text"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/time_text"
+        app:layout_constraintBottom_toTopOf="@id/pressure_text"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -163,7 +165,6 @@
         android:id="@+id/temperature_text_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/temperature_text"
         app:layout_constraintStart_toEndOf="@+id/temperature_text"
         app:layout_constraintTop_toTopOf="@+id/temperature_text"
@@ -176,8 +177,9 @@
         android:layout_height="wrap_content"
         android:text="Pressure:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperature_text"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/temperature_text"
+        app:layout_constraintBottom_toTopOf="@id/description_text"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -185,7 +187,6 @@
         android:id="@+id/pressure_text_editable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/pressure_text"
         app:layout_constraintStart_toEndOf="@+id/pressure_text"
         app:layout_constraintTop_toTopOf="@+id/pressure_text"
@@ -198,8 +199,9 @@
         android:layout_height="wrap_content"
         android:text="Description:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pressure_text"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/pressure_text"
+        app:layout_constraintBottom_toTopOf="@id/basic_info_favourite_button"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         style="@style/basic_weather_info" />
 
@@ -223,7 +225,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/basic_info_favourite_button"
         android:text="Favourite Cities"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="10dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
