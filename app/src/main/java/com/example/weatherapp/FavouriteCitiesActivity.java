@@ -1,7 +1,10 @@
 package com.example.weatherapp;
 
+import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class FavouriteCitiesActivity extends AppCompatActivity implements FavouriteCityInterface
@@ -29,11 +33,13 @@ public class FavouriteCitiesActivity extends AppCompatActivity implements Favour
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourite_cities);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);
+
         favouriteCitiesRecyclerView = findViewById(R.id.favourite_cities_recycler_view);
         addCityET = findViewById(R.id.favourite_cities_add_city_edit_text);
         addCityBtn = findViewById(R.id.favourite_cities_add_city_button);
 
-        favouriteCitiesList = new ArrayList<>();
+        favouriteCitiesList = new ArrayList<>(sharedPreferences.getStringSet("favourite_cities", new HashSet<>()));
         favouriteCitiesAdapter = new FavouriteCitiesAdapter(favouriteCitiesList, this);
         favouriteCitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         favouriteCitiesRecyclerView.setAdapter(favouriteCitiesAdapter);
@@ -51,6 +57,11 @@ public class FavouriteCitiesActivity extends AppCompatActivity implements Favour
             {
                 favouriteCitiesList.add(tempCity);
                 favouriteCitiesAdapter.notifyItemInserted(favouriteCitiesList.size() - 1);
+
+                SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("favourite_cities", new HashSet<>(favouriteCitiesList));
+                editor.apply();
             }
         }
         else
@@ -71,6 +82,10 @@ public class FavouriteCitiesActivity extends AppCompatActivity implements Favour
     @Override
     public void removeCity(int position)
     {
-        // do nothing
+        // in this usage of this interface, just update the list stored in the memory of the system
+        SharedPreferences sharedPreferences = getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("favourite_cities", new HashSet<>(favouriteCitiesList));
+        editor.apply();
     }
 }

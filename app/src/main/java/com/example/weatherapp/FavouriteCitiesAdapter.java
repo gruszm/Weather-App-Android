@@ -52,6 +52,7 @@ public class FavouriteCitiesAdapter extends RecyclerView.Adapter<FavouriteCityVi
         {
             favouriteCitiesList.remove(position);
             notifyItemRemoved(position);
+            favouriteCityInterface.removeCity(-1); // pass -1 because it is not used
         }
     }
 }
