@@ -4,6 +4,7 @@ import static com.example.weatherapp.ForecastAdapter.FORECAST_NUM;
 import static com.example.weatherapp.WeatherAppConfig.WEATHER_APP_SHARED_PREFS_NAME;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,6 +35,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     private Spinner unitsSpinner;
     private ImageView weatherIcon;
     private String temperatureSuffix;
+    private Button favouriteButton;
 
     public BasicInfoFragment(WeatherResponse weatherHistoryInfo, String temperatureSuffix, WeatherResponseCallback weatherResponseCallback)
     {
@@ -61,8 +64,10 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         temperatureTV = view.findViewById(R.id.temperature_text_editable);
         descriptionTV = view.findViewById(R.id.description_text_editable);
         weatherIcon = view.findViewById(R.id.basic_info_weather_icon);
+        favouriteButton = view.findViewById(R.id.basic_info_favourite_button);
 
         cityET.setOnEditorActionListener(this::onCityEditorAction);
+        favouriteButton.setOnClickListener(this::favouriteButtonOnClickListener);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(WEATHER_APP_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         cityET.setText(sharedPreferences.getString("current_city", ""));
@@ -87,6 +92,12 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         unitsSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void favouriteButtonOnClickListener(View view)
+    {
+        Intent intent = new Intent(getContext(), FavouriteCitiesActivity.class);
+        startActivity(intent);
     }
 
     boolean onCityEditorAction(TextView textView, int actionId, KeyEvent keyEvent)

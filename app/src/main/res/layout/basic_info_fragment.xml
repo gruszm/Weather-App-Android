@@ -218,4 +218,12 @@
         android:gravity="center_vertical"
         style="@style/basic_weather_info" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/basic_info_favourite_button"
+        android:text="Favourite Cities"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
