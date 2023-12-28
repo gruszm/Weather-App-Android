@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     private WeatherResponseCallback weatherResponseCallback;
     private WeatherResponse weatherHistoryInfo;
     private Spinner unitsSpinner;
+    private ImageView weatherIcon;
     private String temperatureSuffix;
 
     public BasicInfoFragment(WeatherResponse weatherHistoryInfo, String temperatureSuffix, WeatherResponseCallback weatherResponseCallback)
@@ -58,6 +60,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         pressureTv = view.findViewById(R.id.pressure_text_editable);
         temperatureTV = view.findViewById(R.id.temperature_text_editable);
         descriptionTV = view.findViewById(R.id.description_text_editable);
+        weatherIcon = view.findViewById(R.id.basic_info_weather_icon);
 
         cityET.setOnEditorActionListener(this::onCityEditorAction);
 
@@ -105,6 +108,8 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
     public void updateWeatherInfo(WeatherResponse weatherResponse, String temperatureSuffix)
     {
         String temperature = String.valueOf(weatherResponse.getCurrentTemperature()).concat(temperatureSuffix);
+        String iconName = "ic_".concat(weatherResponse.getIconId(0));
+        String packageName = getContext().getPackageName();
 
         cityNameTV.setText(weatherResponse.getCityName());
         latitudeTV.setText(String.valueOf(weatherResponse.getLatitude()).concat("°"));
@@ -113,6 +118,7 @@ public class BasicInfoFragment extends Fragment implements AdapterView.OnItemSel
         temperatureTV.setText(temperature);
         pressureTv.setText(String.valueOf(weatherResponse.getCurrentPressure()).concat(" hPa"));
         descriptionTV.setText(weatherResponse.getCurrentWeatherDescription());
+        weatherIcon.setImageResource(getResources().getIdentifier(iconName, "drawable", packageName));
     }
 
     @Override

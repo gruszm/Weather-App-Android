@@ -32,6 +32,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastElementViewHol
             holder.temperatureTV.setText(String.valueOf(weatherResponse.getTemperature(position)).concat(temperatureSuffix));
             holder.pressureTV.setText(String.valueOf(weatherResponse.getPressure(position)).concat(" hPa"));
             holder.descTV.setText(weatherResponse.getWeatherDescription(position));
+            holder.setImageByIconId(weatherResponse.getIconId(position));
         }
     }
 

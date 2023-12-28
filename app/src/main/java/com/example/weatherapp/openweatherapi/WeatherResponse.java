@@ -48,6 +48,7 @@ public class WeatherResponse
     private static class Weather
     {
         private String description;
+        private String icon;
     }
 
     public String getCityName()
@@ -177,5 +178,10 @@ public class WeatherResponse
     public int getCurrentVisibility()
     {
         return list.get(0).visibility;
+    }
+
+    public String getIconId(int pos)
+    {
+        return list.get(pos).weather.get(0).icon;
     }
 }
