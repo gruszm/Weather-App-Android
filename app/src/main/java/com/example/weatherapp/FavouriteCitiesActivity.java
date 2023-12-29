@@ -6,9 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +47,20 @@ public class FavouriteCitiesActivity extends AppCompatActivity implements Favour
         favouriteCitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         favouriteCitiesRecyclerView.setAdapter(favouriteCitiesAdapter);
 
+        addCityET.setOnEditorActionListener(this::addCityOnEditorActionListener);
         addCityBtn.setOnClickListener(this::addCityOnClickListener);
+    }
+
+    private boolean addCityOnEditorActionListener(TextView textView, int actionId, KeyEvent keyEvent)
+    {
+        // when clicking "Done", add a new city and close the keyboard
+
+        if (actionId == EditorInfo.IME_ACTION_DONE)
+        {
+            addCityOnClickListener(null);
+        }
+
+        return false;
     }
 
     private void addCityOnClickListener(View view)
@@ -55,6 +71,7 @@ public class FavouriteCitiesActivity extends AppCompatActivity implements Favour
         {
             if (!tempCity.isEmpty())
             {
+                addCityET.setText("");
                 favouriteCitiesList.add(tempCity);
                 favouriteCitiesAdapter.notifyItemInserted(favouriteCitiesList.size() - 1);
 
